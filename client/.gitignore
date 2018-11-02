@@ -1,6 +1,5 @@
 .DS_Store
-app.use(cors())
-
+node_modules/
 /dist/
 npm-debug.log*
 yarn-debug.log*
