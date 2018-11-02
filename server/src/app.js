@@ -1,24 +1,19 @@
-console.log('starting server')
-const express = require('express')
 const bodyParser = require('body-parser')
+const config = require('./config/config')
 const cors = require('cors')
+const express = require('express')
 const morgan = require('morgan')
+const { sequelize } = require('./models')
 
 const app = express()
 app.use(morgan('çombined'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.post('/register', (req, res) => {
-  res.send({
-    message: `User with email ${req.body.email} is registered`
-  })
-})
+require('./routes')(app)
 
-app.get('/status', (req, res) => {
-  res.send({
-    message: `test completed`
+sequelize.sync()
+  .then(() => {
+    app.listen(config.port || 8081)
+    console.log(`server running on port ${config.port}`)
   })
-})
-
-app.listen(process.env.PORT || 8081)
